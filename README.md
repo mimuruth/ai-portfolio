@@ -11,10 +11,10 @@ Four repositories, each self-contained, that together cover the core competencie
 production AI engineer: retrieval, evaluation, observability, local/offline inference,
 model training, and real-time systems.
 
-> 📘 **[AI Engineering Textbook](book/ai-engineering-textbook.pdf)** — a ~70-page,
+> 📘 **[AI Engineering Textbook](book/)** — a ~70-page,
 > textbook-style guide that teaches the concepts, walks through every project with
-> real measured numbers, and doubles as an interview-prep guide. Source and build
-> pipeline in [`book/`](book/).
+> real measured numbers, and doubles as an interview-prep guide. Build the PDF from
+> the Markdown source in [`book/`](book/) with `npm run build`.
 >
 > 📄 **One-page executive summary** — [PDF](book/ai-engineering-onepager.pdf) ·
 > [PNG](book/ai-engineering-onepager.png) (for a résumé attachment or LinkedIn).
