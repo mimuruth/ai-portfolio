@@ -18,7 +18,6 @@ book/
   build.mjs        # Markdown -> HTML (markdown-it + highlight.js + Mermaid) -> PDF (Puppeteer)
   ai-engineering-textbook.pdf   # the built deliverable
 ```
-
 ## Rebuild the PDF
 
 Requires Node.js.
@@ -28,8 +27,8 @@ cd book
 npm install
 npx puppeteer browsers install chrome   # if npm blocked the postinstall
 npm run build                            # -> ai-engineering-textbook.pdf
+node build-onepager.mjs                   # -> ai-engineering-onepager.pdf (1-page executive summary)
 ```
-
 The charts in `assets/` are regenerated from the projects' own result files:
 
 ```bash
