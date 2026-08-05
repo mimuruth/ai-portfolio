@@ -18,6 +18,17 @@ model training, and real-time systems.
 | 4 | [`llm-finetuning`](https://github.com/mimuruth/llm-finetuning) | LoRA/QLoRA SFT + DPO preference tuning with before/after metrics | Implemented |
 | 5 | [`realtime-voice`](https://github.com/mimuruth/realtime-voice) | Real-time ASR → LLM → TTS pipeline with a latency budget and graceful degradation | Implemented |
 
+## Results at a glance
+
+Real, measured numbers — each repo's README has the full write-up and charts.
+
+| Repo | Headline metrics |
+|------|------------------|
+| [`prod-rag`](https://github.com/mimuruth/prod-rag) | faithfulness **0.87** · answer-relevancy **0.85** · context-precision **1.00** (CI-gated) · p50 **2.3 s** · **$0.00025**/req · **100%** citation coverage · **0%** failure |
+| [`local-slm-lab`](https://github.com/mimuruth/local-slm-lab) | **89.6 tok/s** (llama3.2 3B) · cold start **2.6–8.4 s** across 3B–7B · temp 0 **fully deterministic** · plain JSON **0/5** → Instructor **valid** |
+| [`realtime-voice`](https://github.com/mimuruth/realtime-voice) | per-stage p50 — ASR **61.8 ms** · LLM **93.0 ms** · TTS **46.9 ms** · **~202 ms** end-to-end · graceful degradation + replay |
+| [`llm-finetuning`](https://github.com/mimuruth/llm-finetuning) | LoRA SFT → DPO, **one-command** GPU run · before/after metrics (JSON validity · exact-match · refusal) |
+
 ## The story these tell
 
 ```mermaid
