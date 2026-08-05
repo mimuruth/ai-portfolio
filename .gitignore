@@ -1,0 +1,5 @@
+# the four projects live in their own repositories; this hub tracks only the landing README
+prod-rag/
+local-slm-lab/
+llm-finetuning/
+realtime-voice/
