@@ -1,0 +1,17 @@
+{
+  "name": "ai-engineering-textbook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Build pipeline for the AI Engineering textbook PDF.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^15.0.0",
+    "markdown-it-anchor": "^9.2.1",
+    "mermaid": "^11.16.1",
+    "puppeteer": "^25.5.0"
+  }
+}

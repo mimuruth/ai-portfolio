@@ -11,6 +11,11 @@ Four repositories, each self-contained, that together cover the core competencie
 production AI engineer: retrieval, evaluation, observability, local/offline inference,
 model training, and real-time systems.
 
+> 📘 **[AI Engineering Textbook](book/ai-engineering-textbook.pdf)** — a ~70-page,
+> textbook-style guide that teaches the concepts, walks through every project with
+> real measured numbers, and doubles as an interview-prep guide. Source and build
+> pipeline in [`book/`](book/).
+
 | # | Repo | What it demonstrates | Status |
 |---|------|----------------------|--------|
 | 1 + 3 | [`prod-rag`](https://github.com/mimuruth/prod-rag) | Production RAG (hybrid retrieval, reranking, citation enforcement) **+** full observability, cost/latency tracking, and CI regression gating | Phases 1–3 complete |
