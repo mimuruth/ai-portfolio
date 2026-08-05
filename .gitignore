@@ -8,3 +8,6 @@ realtime-voice/
 .env
 .env.*
 !.env.example
+
+# local-only LinkedIn marketing content (not published)
+linkedin/
