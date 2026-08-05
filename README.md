@@ -15,6 +15,9 @@ model training, and real-time systems.
 > textbook-style guide that teaches the concepts, walks through every project with
 > real measured numbers, and doubles as an interview-prep guide. Source and build
 > pipeline in [`book/`](book/).
+>
+> 📄 **One-page executive summary** — [PDF](book/ai-engineering-onepager.pdf) ·
+> [PNG](book/ai-engineering-onepager.png) (for a résumé attachment or LinkedIn).
 
 | # | Repo | What it demonstrates | Status |
 |---|------|----------------------|--------|

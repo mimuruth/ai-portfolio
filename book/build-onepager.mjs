@@ -37,6 +37,7 @@ writeFileSync(join(__dirname, "onepager.html"), html);
 
 const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
 const page = await browser.newPage();
+await page.setViewport({ width: 820, height: 1160, deviceScaleFactor: 2 });
 await page.goto(pathToFileURL(join(__dirname, "onepager.html")).href, { waitUntil: "networkidle0" });
 await page.pdf({
   path: OUT_PDF,
@@ -44,5 +45,13 @@ await page.pdf({
   printBackground: true,
   margin: { top: "12mm", bottom: "10mm", left: "12mm", right: "12mm" },
 });
+await page.screenshot({
+  path: join(__dirname, "ai-engineering-onepager.png"),
+  clip: await page.evaluate(() => {
+    const kids = [...document.body.children];
+    const bottom = Math.max(...kids.map((el) => el.getBoundingClientRect().bottom));
+    return { x: 0, y: 0, width: Math.ceil(document.body.getBoundingClientRect().width), height: Math.ceil(bottom) + 8 };
+  }),
+});
 await browser.close();
-console.log("wrote", OUT_PDF);
+console.log("wrote", OUT_PDF, "and ai-engineering-onepager.png");

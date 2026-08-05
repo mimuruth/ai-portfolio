@@ -27,7 +27,7 @@ cd book
 npm install
 npx puppeteer browsers install chrome   # if npm blocked the postinstall
 npm run build                            # -> ai-engineering-textbook.pdf
-node build-onepager.mjs                   # -> ai-engineering-onepager.pdf (1-page executive summary)
+node build-onepager.mjs                   # -> ai-engineering-onepager.pdf + .png (1-page executive summary)
 ```
 The charts in `assets/` are regenerated from the projects' own result files:
 
