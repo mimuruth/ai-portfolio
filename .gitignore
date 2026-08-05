@@ -3,3 +3,8 @@ prod-rag/
 local-slm-lab/
 llm-finetuning/
 realtime-voice/
+
+# never commit secrets
+.env
+.env.*
+!.env.example
