@@ -18,7 +18,8 @@ import puppeteer from "puppeteer";
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHAPTERS = join(__dirname, "chapters");
-const OUT_PDF = join(__dirname, "ai-engineering-textbook-illustrated.pdf");
+const OUT_PDF = join(__dirname, "ai-engineering-textbook-illustrated-corrected.pdf");
+const AUTHOR = "Michael Muruthi";
 
 const mermaidSrc = readFileSync(require.resolve("mermaid/dist/mermaid.min.js"), "utf8");
 const hljsCss = readFileSync(require.resolve("highlight.js/styles/github.css"), "utf8");
@@ -162,14 +163,17 @@ const body = md.render(markdown);
 
 const artCss = `
   .cover-art { height: 247mm; padding: 0; border-left: none; display: block; position: relative; overflow: hidden; }
-  .art-hero { position: absolute; top: 0; left: 0; right: 0; height: 162mm; background: #0a0f1e; }
+  .art-hero { position: absolute; top: 0; left: 0; right: 0; height: 146mm; background: #0a0f1e; }
   .art-hero svg { width: 100%; height: 100%; display: block; }
-  .art-rule { position: absolute; top: 162mm; left: 0; right: 0; height: 2.4mm; background: linear-gradient(90deg, #67e8f9 0%, #2563eb 45%, #6366f1 100%); }
-  .art-text { position: absolute; top: 178mm; left: 15mm; right: 15mm; }
-  .art-kicker { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; text-transform: uppercase; color: #2563eb; font-size: 10.5pt; font-weight: 600; }
-  .art-title { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 40pt; line-height: 1.0; margin: 6mm 0 5mm 0; border: none; padding: 0; color: #0b1020; }
+  .art-rule { position: absolute; top: 146mm; left: 0; right: 0; height: 2mm; background: linear-gradient(90deg, #67e8f9 0%, #2563eb 45%, #6366f1 100%); }
+  .art-text { position: absolute; top: 156mm; left: 15mm; right: 15mm; }
+  .art-kicker { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; text-transform: uppercase; color: #2563eb; font-size: 10pt; font-weight: 600; }
+  .art-title { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 34pt; line-height: 1.02; margin: 5mm 0 4mm 0; border: none; padding: 0; color: #0b1020; }
   .art-title .l2 { color: #2563eb; }
-  .art-sub { color: #555; font-size: 12pt; max-width: 168mm; }
+  .art-sub { color: #555; font-size: 11pt; max-width: 170mm; margin: 0 0 7mm 0; }
+  .art-author-label { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8f98; font-size: 8.5pt; }
+  .art-author { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 20pt; color: #0b1020; margin: 1.5mm 0 4.5mm 0; }
+  .art-edition { color: #555; font-style: italic; font-size: 9.5pt; max-width: 170mm; }
 `;
 
 const html = `<!doctype html>
@@ -190,6 +194,9 @@ const html = `<!doctype html>
     <h1 class="art-title">AI Engineering<br><span class="l2">from Scratch to Shipped</span></h1>
     <div class="art-sub">Retrieval-Augmented Generation · Observability · Offline Small Language Models ·
     Fine-Tuning (LoRA / QLoRA / DPO) · Real-Time Voice</div>
+    <div class="art-author-label">Written by</div>
+    <div class="art-author">${AUTHOR}</div>
+    <div class="art-edition">First Edition · 2026 · Grounded in four working repositories with real, measured results.</div>
   </div>
 </section>
 <section class="toc-page">
