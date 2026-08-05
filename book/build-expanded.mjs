@@ -24,7 +24,11 @@ const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHAPTERS = join(__dirname, "chapters");
 const EXP = join(__dirname, "expanded");
-const OUT_PDF = join(__dirname, "ai-engineering-textbook-expanded.pdf");
+const WITH_SOLUTIONS = process.env.WITH_SOLUTIONS === "1";
+const OUT_PDF = join(
+  __dirname,
+  WITH_SOLUTIONS ? "ai-engineering-textbook-expanded-solutions.pdf" : "ai-engineering-textbook-expanded.pdf",
+);
 
 const mermaidSrc = readFileSync(require.resolve("mermaid/dist/mermaid.min.js"), "utf8");
 const hljsCss = readFileSync(require.resolve("highlight.js/styles/github.css"), "utf8");
@@ -162,7 +166,9 @@ for (const f of readdirSync(CHAPTERS).filter((x) => x.endsWith(".md")).sort()) {
   }
   parts.push(aug ? content + "\n\n" + aug : content);
 }
-for (const b of ["back-1-glossary.md", "back-2-hardware.md", "back-4-cheatsheet.md", "back-3-index.md"]) {
+const backMatter = ["back-1-glossary.md", "back-2-hardware.md", "back-4-cheatsheet.md", "back-3-index.md"];
+if (WITH_SOLUTIONS) backMatter.unshift("solutions.md"); // between Chapter 13 and the Glossary
+for (const b of backMatter) {
   parts.push(readFileSync(join(EXP, b), "utf8"));
 }
 const markdown = parts.join("\n\n");
@@ -230,7 +236,7 @@ const html = `<!doctype html>
     Fine-Tuning (LoRA / QLoRA / DPO) · Real-Time Voice</div>
     <div class="art-author-label">Written by</div>
     <div class="art-author">${AUTHOR}</div>
-    <div class="art-edition">Expanded Edition · 2026 · First-principles math, bare-metal code, hands-on labs, and a hardware reference.</div>
+    <div class="art-edition">${WITH_SOLUTIONS ? "Expanded Edition with Solutions" : "Expanded Edition"} · 2026 · First-principles math, bare-metal code, hands-on labs, and a hardware reference.</div>
   </div>
 </section>
 <section class="toc-page">
