@@ -35,6 +35,92 @@ const katexCssPath = require.resolve("katex/dist/katex.min.css");
 const fontsUrl = pathToFileURL(join(dirname(katexCssPath), "fonts")).href;
 const katexCss = readFileSync(katexCssPath, "utf8").replace(/url\(fonts\//g, `url(${fontsUrl}/`);
 
+const AUTHOR = "Michael Muruthi";
+
+// Generative cover artwork (identical to the illustrated edition).
+function mulberry32(a) {
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function buildArtworkSvg() {
+  const rand = mulberry32(20260805);
+  const W = 1000;
+  const H = 660;
+  const nodes = [];
+  nodes.push({ x: 500, y: 320, r: 10, hub: true });
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    nodes.push({ x: 500 + Math.cos(a) * 135, y: 320 + Math.sin(a) * 108, r: 4 + rand() * 3 });
+  }
+  for (let i = 0; i < 46; i++) {
+    nodes.push({ x: 50 + rand() * 900, y: 40 + rand() * 580, r: 2.4 + rand() * 4.2 });
+  }
+  const d = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const edges = new Set();
+  nodes.forEach((n, i) => {
+    nodes
+      .map((m, j) => ({ j, dd: d(n, m) }))
+      .filter((o) => o.j !== i)
+      .sort((a, b) => a.dd - b.dd)
+      .slice(0, 2)
+      .forEach((o) => edges.add(i < o.j ? `${i}-${o.j}` : `${o.j}-${i}`));
+  });
+  nodes.forEach((n, i) => {
+    if (i !== 0 && d(n, nodes[0]) < 300 && rand() > 0.4) edges.add(`0-${i}`);
+  });
+  const edgeSvg = [...edges]
+    .map((k) => {
+      const [i, j] = k.split("-").map(Number);
+      const op = (0.14 + rand() * 0.22).toFixed(2);
+      return `<line x1="${nodes[i].x.toFixed(1)}" y1="${nodes[i].y.toFixed(1)}" x2="${nodes[j].x.toFixed(1)}" y2="${nodes[j].y.toFixed(1)}" stroke="#8ec2ff" stroke-opacity="${op}" stroke-width="1"/>`;
+    })
+    .join("");
+  const nodeSvg = nodes
+    .map((n) => {
+      if (n.hub) {
+        return `<circle cx="${n.x}" cy="${n.y}" r="26" fill="#a5b4fc" opacity="0.35" filter="url(#soft)"/>
+                <circle cx="${n.x}" cy="${n.y}" r="${n.r}" fill="#ffffff"/>`;
+      }
+      const bright = rand() > 0.78;
+      const glow = bright ? `<circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${(n.r * 3).toFixed(1)}" fill="#67e8f9" opacity="0.28" filter="url(#soft)"/>` : "";
+      return `${glow}<circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${n.r.toFixed(1)}" fill="url(#node)"/>`;
+    })
+    .join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#080d1c"/>
+        <stop offset="0.5" stop-color="#13245a"/>
+        <stop offset="1" stop-color="#3a2f7d"/>
+      </linearGradient>
+      <radialGradient id="glow" cx="0.5" cy="0.48" r="0.55">
+        <stop offset="0" stop-color="#3b82f6" stop-opacity="0.55"/>
+        <stop offset="0.55" stop-color="#4f46e5" stop-opacity="0.20"/>
+        <stop offset="1" stop-color="#4f46e5" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="node" cx="0.4" cy="0.35" r="0.7">
+        <stop offset="0" stop-color="#a7f3ff"/>
+        <stop offset="0.55" stop-color="#67e8f9"/>
+        <stop offset="1" stop-color="#6366f1"/>
+      </radialGradient>
+      <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+    </defs>
+    <rect width="${W}" height="${H}" fill="url(#bg)"/>
+    <circle cx="500" cy="320" r="420" fill="url(#glow)"/>
+    <circle cx="500" cy="320" r="165" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <circle cx="500" cy="320" r="235" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+    <g stroke-linecap="round">${edgeSvg}</g>
+    <g>${nodeSvg}</g>
+  </svg>`;
+}
+const artworkSvg = buildArtworkSvg();
+
 const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -107,6 +193,21 @@ const expCss = `
   .katex-display { margin: 10px 0; overflow-x: auto; overflow-y: hidden; }
 `;
 
+const artCss = `
+  .cover-art { height: 247mm; padding: 0; border-left: none; display: block; position: relative; overflow: hidden; }
+  .art-hero { position: absolute; top: 0; left: 0; right: 0; height: 146mm; background: #0a0f1e; }
+  .art-hero svg { width: 100%; height: 100%; display: block; }
+  .art-rule { position: absolute; top: 146mm; left: 0; right: 0; height: 2mm; background: linear-gradient(90deg, #67e8f9 0%, #2563eb 45%, #6366f1 100%); }
+  .art-text { position: absolute; top: 156mm; left: 15mm; right: 15mm; }
+  .art-kicker { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 0.20em; text-transform: uppercase; color: #2563eb; font-size: 9.5pt; font-weight: 600; }
+  .art-title { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 34pt; line-height: 1.02; margin: 5mm 0 4mm 0; border: none; padding: 0; color: #0b1020; }
+  .art-title .l2 { color: #2563eb; }
+  .art-sub { color: #555; font-size: 11pt; max-width: 170mm; margin: 0 0 6mm 0; }
+  .art-author-label { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8f98; font-size: 8.5pt; }
+  .art-author { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 20pt; color: #0b1020; margin: 1.5mm 0 4mm 0; }
+  .art-edition { color: #555; font-style: italic; font-size: 9.5pt; max-width: 170mm; }
+`;
+
 const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -116,15 +217,21 @@ const html = `<!doctype html>
 <style>${katexCss}</style>
 <style>${bookCss}</style>
 <style>${expCss}</style>
+<style>${artCss}</style>
 </head>
 <body>
-<section class="cover">
-  <div class="cover-kicker">A Practical Textbook &amp; Portfolio Guide · Expanded Edition</div>
-  <h1 class="cover-title">AI Engineering<br>from Scratch to Shipped</h1>
-  <div class="cover-sub">Five production projects: Retrieval-Augmented Generation, Observability,
-  Offline Small Language Models, Fine-Tuning (LoRA/QLoRA/DPO), and Real-Time Voice</div>
-  <div class="cover-meta">Expanded with first-principles math, bare-metal code, hands-on labs,
-  exercises, a glossary, and a hardware reference.</div>
+<section class="cover cover-art">
+  <div class="art-hero">${artworkSvg}</div>
+  <div class="art-rule"></div>
+  <div class="art-text">
+    <div class="art-kicker">A Practical Textbook &amp; Portfolio Guide · Expanded Edition</div>
+    <h1 class="art-title">AI Engineering<br><span class="l2">from Scratch to Shipped</span></h1>
+    <div class="art-sub">Retrieval-Augmented Generation · Observability · Offline Small Language Models ·
+    Fine-Tuning (LoRA / QLoRA / DPO) · Real-Time Voice</div>
+    <div class="art-author-label">Written by</div>
+    <div class="art-author">${AUTHOR}</div>
+    <div class="art-edition">Expanded Edition · 2026 · First-principles math, bare-metal code, hands-on labs, and a hardware reference.</div>
+  </div>
 </section>
 <section class="toc-page">
   <h1 class="toc-h">Contents</h1>
