@@ -2,6 +2,11 @@
 
 > I build AI systems that are **reliable, measurable, and production-ready** — not demos.
 
+[![prod-rag](https://github.com/mimuruth/prod-rag/actions/workflows/lint-test.yml/badge.svg)](https://github.com/mimuruth/prod-rag/actions/workflows/lint-test.yml)
+[![local-slm-lab](https://github.com/mimuruth/local-slm-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/mimuruth/local-slm-lab/actions/workflows/ci.yml)
+[![llm-finetuning](https://github.com/mimuruth/llm-finetuning/actions/workflows/ci.yml/badge.svg)](https://github.com/mimuruth/llm-finetuning/actions/workflows/ci.yml)
+[![realtime-voice](https://github.com/mimuruth/realtime-voice/actions/workflows/ci.yml/badge.svg)](https://github.com/mimuruth/realtime-voice/actions/workflows/ci.yml)
+
 Four repositories, each self-contained, that together cover the core competencies of a
 production AI engineer: retrieval, evaluation, observability, local/offline inference,
 model training, and real-time systems.
