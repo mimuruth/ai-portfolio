@@ -18,6 +18,10 @@ model training, and real-time systems.
 >
 > 📄 **One-page executive summary** — [PDF](book/ai-engineering-onepager.pdf) ·
 > [PNG](book/ai-engineering-onepager.png) (for a résumé attachment or LinkedIn).
+>
+> ▶️ **90-second walkthrough** — _Loom demo coming soon._
+> <!-- When recorded, replace the line above with:
+> ▶️ **[90-second walkthrough](PASTE_LOOM_URL_HERE)** — a quick tour of all five projects. -->
 
 | # | Repo | What it demonstrates | Status |
 |---|------|----------------------|--------|
