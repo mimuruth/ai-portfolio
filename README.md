@@ -37,9 +37,9 @@ Real, measured numbers — each repo's README has the full write-up and charts.
 | Repo | Headline metrics |
 |------|------------------|
 | [`prod-rag`](https://github.com/mimuruth/prod-rag) | faithfulness **0.87** · answer-relevancy **0.85** · context-precision **1.00** (CI-gated) · p50 **2.3 s** · **$0.00025**/req · **100%** citation coverage · **0%** failure · [🔗 live](https://prod-rag.lemonstone-a5ab9349.eastus.azurecontainerapps.io/healthz) |
-| [`local-slm-lab`](https://github.com/mimuruth/local-slm-lab) | **89.6 tok/s** (llama3.2 3B) · cold start **2.6–8.4 s** across 3B–7B · temp 0 **fully deterministic** · plain JSON **0/5** → Instructor **valid** |
+| [`local-slm-lab`](https://github.com/mimuruth/local-slm-lab) | **99.0 tok/s** (llama3.2 3B) · cold start **3.3–8.5 s** across 3B–7B · LLM-judge quality **4.53/5** · temp 0 **fully deterministic** · plain JSON **0/5** → Instructor **valid** |
 | [`realtime-voice`](https://github.com/mimuruth/realtime-voice) | per-stage p50 — ASR **61.8 ms** · LLM **93.0 ms** · TTS **46.9 ms** · **~202 ms** end-to-end · graceful degradation + replay |
-| [`llm-finetuning`](https://github.com/mimuruth/llm-finetuning) | 4-bit QLoRA on RTX 5070 (8 GB) · SFT: JSON validity **0.00→0.67** · refusal **0.67→1.00** · exact-match **0.00→0.33** · DPO reward margin **+6.9** |
+| [`llm-finetuning`](https://github.com/mimuruth/llm-finetuning) | 4-bit QLoRA on RTX 5070 (8 GB) · SFT: JSON validity **0.00→0.80** · refusal **0.80→0.98** · exact-match **0.00→0.78** · DPO reward margin **+6.9** (50-example test set) |
 
 ## The story these tell
 
